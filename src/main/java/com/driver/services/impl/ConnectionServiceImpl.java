@@ -64,7 +64,7 @@ public class ConnectionServiceImpl implements ConnectionService {
              if(sender.getCountry().equals(receiver.getCountry())){
 
              }else{
-                 if(sender.isConnected()!=receiver.isConnected()){
+                 if(sender.getConnected()!=receiver.getConnected()){
                      throw new Exception("Both are not from same country and one of them not connected to any vpn");
                  }
                  else{

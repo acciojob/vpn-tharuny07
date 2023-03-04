@@ -54,11 +54,11 @@ public class User {
         this.password = password;
     }
 
-    public String getOriginalIp() {
+    public String getOriginalCountry() {
         return originalIp;
     }
 
-    public void setOriginalIp(String originalIp) {
+    public void setOriginalCountry(String originalIp) {
         this.originalIp = originalIp;
     }
 
@@ -70,7 +70,7 @@ public class User {
         this.maskedIp = maskedIp;
     }
 
-    public boolean isConnected() {
+    public boolean getConnected() {
         return connected;
     }
 
