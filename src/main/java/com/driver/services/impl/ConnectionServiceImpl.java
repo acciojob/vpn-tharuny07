@@ -22,33 +22,58 @@ public class ConnectionServiceImpl implements ConnectionService {
 
     @Override
     public User connect(int userId, String countryName) throws Exception{
-          User user=userRepository2.findById(userId).get();
-          ServiceProvider serviceProvider=null;
-          List<ServiceProvider> serviceProviderList=user.getServiceProviderList();
+        User user = userRepository2.findById(userId).get();
+        if(user.getMaskedIp()!=null){
+            throw new Exception("Already connected");
+        }
+        else if(countryName.equalsIgnoreCase(user.getOriginalCountry().getCountryName().toString())){
+            return user;
+        }
+        else {
+            if (user.getServiceProviderList()==null){
+                throw new Exception("Unable to connect");
+            }
 
-          for(ServiceProvider service:serviceProviderList){
-              for(Country country: service.getCountryList()){
-                  if((country.getCountryName().toString()).equals(countryName)){
-                      serviceProvider=service;
-                      break;
-                  }
-              }
-          }
-          if(serviceProvider==null){
-              throw new Exception("Invalid country name");
-          }
-          user.setMaskedIp(countryName);
-          Connection connection=new Connection();
-          connection.setServiceProvider(serviceProvider);
-          connection.setUser(user);
-          connectionRepository2.save(connection);
-          user.setConnected(true);
-          serviceProvider.getConnectionList().add(connection);
-          user.getConnectionList().add(connection);
+            List<ServiceProvider> serviceProviderList = user.getServiceProviderList();
+            int a = Integer.MAX_VALUE;
+            ServiceProvider serviceProvider = null;
+            Country country =null;
 
-          serviceProviderRepository2.save(serviceProvider);
+            for(ServiceProvider serviceProvider1:serviceProviderList){
 
-          return userRepository2.save(user);
+                List<Country> countryList = serviceProvider1.getCountryList();
+
+                for (Country country1: countryList){
+
+                    if(countryName.equalsIgnoreCase(country1.getCountryName().toString()) && a > serviceProvider1.getId() ){
+                        a=serviceProvider1.getId();
+                        serviceProvider=serviceProvider1;
+                        country=country1;
+                    }
+                }
+            }
+            if (serviceProvider!=null){
+                Connection connection = new Connection();
+                connection.setUser(user);
+                connection.setServiceProvider(serviceProvider);
+
+                String cc = country.getCode();
+                int givenId = serviceProvider.getId();
+                String mask = cc+"."+givenId+"."+userId;
+
+                user.setMaskedIp(mask);
+                user.setConnected(true);
+                user.getConnectionList().add(connection);
+
+                serviceProvider.getConnectionList().add(connection);
+
+                userRepository2.save(user);
+                serviceProviderRepository2.save(serviceProvider);
+
+
+            }
+        }
+        return user;
 
     }
     @Override
