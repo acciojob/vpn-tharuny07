@@ -28,7 +28,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 
           for(ServiceProvider service:serviceProviderList){
               for(Country country: service.getCountryList()){
-                  if(country.getCountryName().equals(countryName)){
+                  if((country.getCountryName().toString()).equals(countryName)){
                       serviceProvider=service;
                       break;
                   }
