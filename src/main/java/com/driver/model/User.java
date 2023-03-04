@@ -54,11 +54,11 @@ public class User {
         this.password = password;
     }
 
-    public String getOriginalCountry() {
+    public String getOriginalIp() {
         return originalIp;
     }
 
-    public void setOriginalCountry(String originalIp) {
+    public void setOriginalIp(String originalIp) {
         this.originalIp = originalIp;
     }
 
