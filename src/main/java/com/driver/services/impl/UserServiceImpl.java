@@ -33,7 +33,7 @@ public class UserServiceImpl implements UserService {
         country.setCountryName(CountryName.valueOf(countryName));
         country.setCode(CountryName.valueOf(countryName).toCode());
 
-        user.setCountry(country);
+        user.setOriginalCountry(country);
         return userRepository3.save(user);
     }
 

@@ -63,7 +63,7 @@ public class ConnectionServiceImpl implements ConnectionService {
              User sender=userRepository2.findById(senderId).get();
              User receiver=userRepository2.findById(receiverId).get();
 
-             if(sender.getCountry().equals(receiver.getCountry())){
+             if(sender.getOriginalCountry().equals(receiver.getOriginalCountry())){
 
              }else{
                  if(sender.getConnected()!=receiver.getConnected()){
