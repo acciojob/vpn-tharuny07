@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class ConnectionServiceImpl implements ConnectionService {
@@ -70,7 +71,7 @@ public class ConnectionServiceImpl implements ConnectionService {
                      throw new Exception("Both are not from same country and one of them not connected to any vpn");
                  }
                  else{
-                     if(sender.getMaskedIp()!= receiver.getMaskedIp()){
+                     if(!Objects.equals(sender.getMaskedIp(), receiver.getMaskedIp())){
                          throw new Exception("Both are not connected to same country vpn");
                      }
                  }
