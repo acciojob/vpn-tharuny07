@@ -5,11 +5,11 @@ import com.driver.repository.ConnectionRepository;
 import com.driver.repository.ServiceProviderRepository;
 import com.driver.repository.UserRepository;
 import com.driver.services.ConnectionService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Objects;
 
 @Service
 public class ConnectionServiceImpl implements ConnectionService {
@@ -22,6 +22,7 @@ public class ConnectionServiceImpl implements ConnectionService {
 
     @Override
     public User connect(int userId, String countryName) throws Exception{
+
         User user = userRepository2.findById(userId).get();
         if(user.getMaskedIp()!=null){
             throw new Exception("Already connected");
@@ -74,7 +75,6 @@ public class ConnectionServiceImpl implements ConnectionService {
             }
         }
         return user;
-
     }
     @Override
     public User disconnect(int userId) throws Exception {
@@ -86,7 +86,6 @@ public class ConnectionServiceImpl implements ConnectionService {
         user.setConnected(false);
         userRepository2.save(user);
         return user;
-
     }
     @Override
     public User communicate(int senderId, int receiverId) throws Exception {
